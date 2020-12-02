@@ -3,7 +3,6 @@
  * Initializes the library and runs the stepper
  * motor in alternating directions.
  */
-
 #include <TMCStepper.h>
 
 #define EN_PIN           38 // Enable
@@ -26,25 +25,25 @@
 
 // Select your stepper driver type
 //TMC2130Stepper driver(CS_PIN, R_SENSE);                           // Hardware SPI
-//TMC2130Stepper driver(CS_PIN, R_SENSE, SW_MOSI, SW_MISO, SW_SCK); // Software SPI
+TMC2130Stepper driver(CS_PIN, R_SENSE, SW_MOSI, SW_MISO, SW_SCK); // Software SPI
 //TMC2660Stepper driver(CS_PIN, R_SENSE);                           // Hardware SPI
 //TMC2660Stepper driver(CS_PIN, R_SENSE, SW_MOSI, SW_MISO, SW_SCK);
 //TMC5160Stepper driver(CS_PIN, R_SENSE);
 //TMC5160Stepper driver(CS_PIN, R_SENSE, SW_MOSI, SW_MISO, SW_SCK);
 
-TMC2208Stepper driver(&SERIAL_PORT, R_SENSE);                     // Hardware Serial
+//TMC2208Stepper driver(&SERIAL_PORT, R_SENSE);                     // Hardware Serial
 //TMC2208Stepper driver(SW_RX, SW_TX, R_SENSE);                     // Software serial
 //TMC2209Stepper driver(&SERIAL_PORT, R_SENSE, DRIVER_ADDRESS);
 //TMC2209Stepper driver(SW_RX, SW_TX, R_SENSE, DRIVER_ADDRESS);
 
-void setup() {
-  pinMode(EN_PIN, OUTPUT);
-  pinMode(STEP_PIN, OUTPUT);
-  pinMode(DIR_PIN, OUTPUT);
-  digitalWrite(EN_PIN, LOW);      // Enable driver in hardware
+int main() {
+  //pinMode(EN_PIN, OUTPUT);
+  //pinMode(STEP_PIN, OUTPUT);
+  //pinMode(DIR_PIN, OUTPUT);
+  //digitalWrite(EN_PIN, LOW);      // Enable driver in hardware
 
                                   // Enable one according to your setup
-//SPI.begin();                    // SPI drivers
+  //SPI.begin();                    // SPI drivers
 //SERIAL_PORT.begin(115200);      // HW UART drivers
 //driver.beginSerial(115200);     // SW UART drivers
 
@@ -57,18 +56,19 @@ void setup() {
 //driver.en_pwm_mode(true);       // Toggle stealthChop on TMC2130/2160/5130/5160
 //driver.en_spreadCycle(false);   // Toggle spreadCycle on TMC2208/2209/2224
   driver.pwm_autoscale(true);     // Needed for stealthChop
+  return 0;
 }
 
 bool shaft = false;
 
 void loop() {
   // Run 5000 steps and switch direction in software
-  for (uint16_t i = 5000; i>0; i--) {
-    digitalWrite(STEP_PIN, HIGH);
-    delayMicroseconds(160);
-    digitalWrite(STEP_PIN, LOW);
-    delayMicroseconds(160);
-  }
+//   for (uint16_t i = 5000; i>0; i--) {
+//     digitalWrite(STEP_PIN, HIGH);
+//     delayMicroseconds(160);
+//     digitalWrite(STEP_PIN, LOW);
+//     delayMicroseconds(160);
+//   }
   shaft = !shaft;
   driver.shaft(shaft);
 }
