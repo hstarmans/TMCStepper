@@ -1,14 +1,15 @@
 # Simple makefile
-
-project (TMCStepper)
-
 cmake_minimum_required(VERSION 3.3)
+# pybind requires c14++, not needed for TMCStepper
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-# adds compiler flags
-add_definitions(-Wall -std=c++0x)
+project(TMCStepper)
 
-# set flag for raspberry 
-add_definitions(-Dbcm2835)
+#  bcm2835 library for raspberry
+add_definitions(-Wall -Dbcm2835)
+
 
 #Bring the headers, deprecated
 include_directories(src
