@@ -1,3 +1,34 @@
+# Python wrapper for the Arduino library
+The following library is needed for Raspberry. [Airspayce](http://www.airspayce.com) is the official site
+and can be used to retrieve the latest version.
+```
+wget http://www.airspayce.com/mikem/bcm2835/bcm2835-1.68.tar.gz 
+tar zxvf bcm2835-1.xx.tar.gz
+cd bcm2835-1.xx
+./configure
+make
+sudo make check
+sudo make install
+```
+Recursive clone, cleaner would be to use python module for pybind
+```
+git clone --recurse-submodules https://github.com/hstarmans/TMCStepper.git
+```
+Install cmake
+```
+sudo apt -y install cmake
+```
+Library can be compiled or installed using python.
+```
+python3 setup.py develop --user
+```
+More direct way of compling is
+```
+cmake -H. -Bbuild & make -C ./build
+```
+
+# Documentation Original
+
 Arduino library for Trinamic TMC stepper motor drivers.
 
 Supported TMC drivers:
