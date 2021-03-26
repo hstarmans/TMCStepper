@@ -26,6 +26,13 @@ More direct way of compling is
 ```
 cmake -H. -Bbuild & make -C ./build
 ```
+# Testing
+The test pure.py in the folder test/pure.py should pass.
+By changing the cmakelist file, C++ examples can be compiled. In specific, examples/Simple is modified for Firestarter board.
+Test_connection complains about no power applied to board but it should result in power on to the motors.
+This error seems to be a problem with the library.  
+The library can be tested with libtest.py which is available in the test folder.
+
 
 # Documentation Original
 

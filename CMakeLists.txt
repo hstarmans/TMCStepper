@@ -21,6 +21,7 @@ set(LIB_SOURCES
             ${PROJECT_SOURCE_DIR}/src/source/bcm2835_stream.cpp
             ${PROJECT_SOURCE_DIR}/src/source/CHOPCONF.cpp
             ${PROJECT_SOURCE_DIR}/src/source/COOLCONF.cpp
+            ${PROJECT_SOURCE_DIR}/src/source/DRV_CONF.cpp
             ${PROJECT_SOURCE_DIR}/src/source/DRV_STATUS.cpp
             ${PROJECT_SOURCE_DIR}/src/source/DRVCONF.cpp
             ${PROJECT_SOURCE_DIR}/src/source/DRVCTRL.cpp
@@ -47,24 +48,31 @@ set(LIB_SOURCES
 
 # this code can be used to build c++ examples
 # compilation output is placed in  binary folder
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
+### PART USED FOR EXAMPLES
 # library is written to build folder
-add_library( TMC2130Lib ${LIB_SOURCES})
-
-set(TARGETS ${PROJECT_SOURCE_DIR}/examples/Simple/Simple.cpp)
+# add_library( TMC2130Lib ${LIB_SOURCES})
+#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
+#set(TARGETS ${PROJECT_SOURCE_DIR}/examples/Simple/Simple.cpp)
 # 	    ${PROJECT_SOURCE_DIR}/examples/testyconnection.cpp
 # 	    ${PROJECT_SOURCE_DIR}/examples/testxconnection.cpp
 # 	    ${PROJECT_SOURCE_DIR}/examples/homex.cpp)
 
-foreach( target ${TARGETS})
-     get_filename_component(targetname ${target} NAME)
-     string( REPLACE ".cpp" "" targetname ${targetname} )
-     add_executable( ${targetname} ${target}) 
-     target_link_libraries( ${targetname} TMC2130Lib bcm2835)
-endforeach( target ${TARGETS})
+#foreach( target ${TARGETS})
+#     get_filename_component(targetname ${target} NAME)
+#     string( REPLACE ".cpp" "" targetname ${targetname} )
+#     add_executable( ${targetname} ${target}) 
+#     target_link_libraries( ${targetname} TMC2130Lib bcm2835)
+#endforeach( target ${TARGETS})
+
+### END PART USED FOR EXAMPLES
+
+#### PART USED FOR PYTHON LIBRARY
 
 # build the python module
-#add_subdirectory(${PROJECT_SOURCE_DIR}/python/pybind11)
+add_subdirectory(${PROJECT_SOURCE_DIR}/python/pybind11)
 
-#pybind11_add_module(steppers ${PROJECT_SOURCE_DIR}/python/src/main.cpp ${LIB_SOURCES})
+pybind11_add_module(steppers ${PROJECT_SOURCE_DIR}/python/src/main.cpp ${LIB_SOURCES})
+target_link_libraries(steppers PRIVATE bcm2835)
+
+## EN PART USED FOR PYTHON LIBRARY

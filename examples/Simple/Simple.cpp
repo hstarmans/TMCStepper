@@ -22,15 +22,16 @@
 
 // chain_length is defined in TMCStepper class and has been modified
 // by changing original files, note that chain lenght is also changed by passing the one with the largest index
-int8_t x_index=0;
-int8_t y_index=1;
-int8_t z_index=2;
+int8_t x_index=1;
+int8_t y_index=2;
+int8_t z_index=3;
 TMC2130Stepper zdriver(CS_PIN, R_SENSE, SW_MOSI, SW_MISO, SW_SCK, z_index);
 TMC2130Stepper ydriver(CS_PIN, R_SENSE, SW_MOSI, SW_MISO, SW_SCK, y_index);
 TMC2130Stepper xdriver(CS_PIN, R_SENSE, SW_MOSI, SW_MISO, SW_SCK, x_index); // Software SPI
 //int8_t xdriver.chain_length = 3;
 
 int main() {
+  std::cout << "Starting program\n";
   if(!bcm2835_init())
   {
       std::cout << "Failed bcm2835 init\n";
