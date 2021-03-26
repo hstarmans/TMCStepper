@@ -1,5 +1,5 @@
 # Python wrapper for the Arduino library
-The following library is needed for Raspberry. [Airspayce](http://www.airspayce.com) is the official site
+The following library is needed for Raspberry. [Airspayce](https://www.airspayce.com/mikem/bcm2835/) is the official site
 and can be used to retrieve the latest version.
 ```
 wget http://www.airspayce.com/mikem/bcm2835/bcm2835-1.68.tar.gz 
