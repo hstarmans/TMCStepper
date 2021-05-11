@@ -28,6 +28,11 @@ cmake -H. -Bbuild & make -C ./build
 ```
 # Testing
 The test pure.py in the folder test/pure.py should pass.
+On ubuntu you might not have access to pins
+A very quick fix is. Newer versions of ubuntu should not have this issue, see [link](https://github.com/gpiozero/gpiozero/issues/837).
+```
+chmod og+rwx /dev/gpio*
+```
 By changing the cmakelist file, C++ examples can be compiled. In specific, examples/Simple is modified for Firestarter board.
 Test_connection complains about no power applied to board but it should result in power on to the motors.
 This error seems to be a problem with the library.  
