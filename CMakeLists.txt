@@ -17,34 +17,35 @@ include_directories(src
 
 # sources should be added manually
 set(LIB_SOURCES 
-            ${PROJECT_SOURCE_DIR}/src/source/bcm2835_spi.cpp
-            ${PROJECT_SOURCE_DIR}/src/source/bcm2835_stream.cpp
-            ${PROJECT_SOURCE_DIR}/src/source/CHOPCONF.cpp
-            ${PROJECT_SOURCE_DIR}/src/source/COOLCONF.cpp
-            ${PROJECT_SOURCE_DIR}/src/source/DRV_CONF.cpp
-            ${PROJECT_SOURCE_DIR}/src/source/DRV_STATUS.cpp
-            ${PROJECT_SOURCE_DIR}/src/source/DRVCONF.cpp
-            ${PROJECT_SOURCE_DIR}/src/source/DRVCTRL.cpp
-            ${PROJECT_SOURCE_DIR}/src/source/DRVSTATUS.cpp
-            ${PROJECT_SOURCE_DIR}/src/source/ENCMODE.cpp
-            ${PROJECT_SOURCE_DIR}/src/source/GCONF.cpp
-            ${PROJECT_SOURCE_DIR}/src/source/IHOLD_IRUN.cpp
-            ${PROJECT_SOURCE_DIR}/src/source/PWMCONF.cpp
-            ${PROJECT_SOURCE_DIR}/src/source/RAMP_STAT.cpp
-            ${PROJECT_SOURCE_DIR}/src/source/SERIAL_SWITCH.cpp
-            ${PROJECT_SOURCE_DIR}/src/source/SGCSCONF.cpp
-            ${PROJECT_SOURCE_DIR}/src/source/SHORT_CONF.cpp
-            ${PROJECT_SOURCE_DIR}/src/source/SMARTEN.cpp
-            ${PROJECT_SOURCE_DIR}/src/source/SW_MODE.cpp
-            ${PROJECT_SOURCE_DIR}/src/source/SW_SPI.cpp
-            ${PROJECT_SOURCE_DIR}/src/source/TMC2130Stepper.cpp
-            ${PROJECT_SOURCE_DIR}/src/source/TMC2160Stepper.cpp
-            ${PROJECT_SOURCE_DIR}/src/source/TMC2208Stepper.cpp
-            ${PROJECT_SOURCE_DIR}/src/source/TMC2209Stepper.cpp
-            ${PROJECT_SOURCE_DIR}/src/source/TMC2660Stepper.cpp
-            ${PROJECT_SOURCE_DIR}/src/source/TMC5130Stepper.cpp
-            ${PROJECT_SOURCE_DIR}/src/source/TMC5160Stepper.cpp
-            ${PROJECT_SOURCE_DIR}/src/source/TMCStepper.cpp)
+            ${PROJECT_SOURCE_DIR}/usercmodule/TMCStepper/micropython/pythonwrapp.c)
+            #${PROJECT_SOURCE_DIR}/src/source/bcm2835_spi.cpp
+            #${PROJECT_SOURCE_DIR}/src/source/bcm2835_stream.cpp
+            #${PROJECT_SOURCE_DIR}/src/source/CHOPCONF.cpp
+            #${PROJECT_SOURCE_DIR}/src/source/COOLCONF.cpp
+            #${PROJECT_SOURCE_DIR}/src/source/DRV_CONF.cpp
+            #${PROJECT_SOURCE_DIR}/src/source/DRV_STATUS.cpp
+            #${PROJECT_SOURCE_DIR}/src/source/DRVCONF.cpp
+            #${PROJECT_SOURCE_DIR}/src/source/DRVCTRL.cpp
+            #${PROJECT_SOURCE_DIR}/src/source/DRVSTATUS.cpp
+            #${PROJECT_SOURCE_DIR}/src/source/ENCMODE.cpp
+            #${PROJECT_SOURCE_DIR}/src/source/GCONF.cpp
+            #${PROJECT_SOURCE_DIR}/src/source/IHOLD_IRUN.cpp
+            #${PROJECT_SOURCE_DIR}/src/source/PWMCONF.cpp
+            #${PROJECT_SOURCE_DIR}/src/source/RAMP_STAT.cpp
+            #${PROJECT_SOURCE_DIR}/src/source/SERIAL_SWITCH.cpp
+            #${PROJECT_SOURCE_DIR}/src/source/SGCSCONF.cpp
+            #${PROJECT_SOURCE_DIR}/src/source/SHORT_CONF.cpp
+            #${PROJECT_SOURCE_DIR}/src/source/SMARTEN.cpp
+            #${PROJECT_SOURCE_DIR}/src/source/SW_MODE.cpp
+            #${PROJECT_SOURCE_DIR}/src/source/SW_SPI.cpp
+            #${PROJECT_SOURCE_DIR}/src/source/TMC2130Stepper.cpp
+            #${PROJECT_SOURCE_DIR}/src/source/TMC2160Stepper.cpp
+            #${PROJECT_SOURCE_DIR}/src/source/TMC2208Stepper.cpp
+            #${PROJECT_SOURCE_DIR}/src/source/TMC2209Stepper.cpp
+            #${PROJECT_SOURCE_DIR}/src/source/TMC2660Stepper.cpp
+            #${PROJECT_SOURCE_DIR}/src/source/TMC5130Stepper.cpp
+            #${PROJECT_SOURCE_DIR}/src/source/TMC5160Stepper.cpp
+            #${PROJECT_SOURCE_DIR}/src/source/TMCStepper.cpp)
 
 # this code can be used to build c++ examples
 # compilation output is placed in  binary folder

@@ -66,15 +66,21 @@ void TMC2130Stepper::switchCSpin(bool state) {
 
 __attribute__((weak))
 void TMC2130Stepper::beginTransaction() {
-  if (TMC_SW_SPI == nullptr) {
+  #if defined(esp32)
+  #else
+	  if (TMC_SW_SPI == nullptr) {
     SPI.beginTransaction(SPISettings(spi_speed, MSBFIRST, SPI_MODE3));
   }
+  #endif
 }
 __attribute__((weak))
 void TMC2130Stepper::endTransaction() {
-  if (TMC_SW_SPI == nullptr) {
+  #if defined(esp32)
+  #else
+	  if (TMC_SW_SPI == nullptr) {
     SPI.endTransaction();
   }
+  #endif
 }
 
 __attribute__((weak))
@@ -83,9 +89,12 @@ uint8_t TMC2130Stepper::transfer(const uint8_t data) {
   if (TMC_SW_SPI != nullptr) {
     out = TMC_SW_SPI->transfer(data);
   }
+  #if defined(esp32)
+  #else
   else {
     out = SPI.transfer(data);
   }
+  #endif
   return out;
 }
 

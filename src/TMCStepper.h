@@ -6,6 +6,10 @@
 #pragma GCC diagnostic ignored "-Wunused-function"
 #pragma GCC diagnostic ignored "-Wunused-variable"
 
+#ifndef esp32
+#define esp32
+#endif
+
 #if defined(ARDUINO) && ARDUINO >= 100
 	#include <Arduino.h>
 	#include <SPI.h>
@@ -14,6 +18,8 @@
 	#include <bcm2835.h>
 	#include "source/bcm2835_spi.h"
 	#include "source/bcm2835_stream.h"
+#elif defined(esp32)
+	#include <stdint.h>
 #endif
 
 #if (__cplusplus == 201703L) && defined(__has_include)
@@ -27,6 +33,8 @@
 #if SW_CAPABLE_PLATFORM
 	#include <SoftwareSerial.h>
 #endif
+
+
 
 #include "source/SERIAL_SWITCH.h"
 #include "source/SW_SPI.h"
@@ -812,443 +820,443 @@ class TMC5161Stepper : public TMC5160Stepper {
 			TMC5160Stepper(pinCS, RS, pinMOSI, pinMISO, pinSCK, link_index) {}
 };
 
-class TMC2208Stepper : public TMCStepper {
-	public:
-	    TMC2208Stepper(Stream * SerialPort, float RS, uint8_t addr, uint16_t mul_pin1, uint16_t mul_pin2);
-		TMC2208Stepper(Stream * SerialPort, float RS) :
-			TMC2208Stepper(SerialPort, RS, TMC2208_SLAVE_ADDR)
-			{}
-		#if SW_CAPABLE_PLATFORM
-			TMC2208Stepper(uint16_t SW_RX_pin, uint16_t SW_TX_pin, float RS) :
-				TMC2208Stepper(SW_RX_pin, SW_TX_pin, RS, TMC2208_SLAVE_ADDR)
-				{}
+// class TMC2208Stepper : public TMCStepper {
+// 	public:
+// 	    TMC2208Stepper(Stream * SerialPort, float RS, uint8_t addr, uint16_t mul_pin1, uint16_t mul_pin2);
+// 		TMC2208Stepper(Stream * SerialPort, float RS) :
+// 			TMC2208Stepper(SerialPort, RS, TMC2208_SLAVE_ADDR)
+// 			{}
+// 		#if SW_CAPABLE_PLATFORM
+// 			TMC2208Stepper(uint16_t SW_RX_pin, uint16_t SW_TX_pin, float RS) :
+// 				TMC2208Stepper(SW_RX_pin, SW_TX_pin, RS, TMC2208_SLAVE_ADDR)
+// 				{}
 
-			__attribute__((deprecated("Boolean argument has been deprecated and does nothing")))
-			TMC2208Stepper(uint16_t SW_RX_pin, uint16_t SW_TX_pin, float RS, bool) :
-				TMC2208Stepper(SW_RX_pin, SW_TX_pin, RS, TMC2208_SLAVE_ADDR)
-				{};
-		#else
-			TMC2208Stepper(uint16_t, uint16_t, float) = delete; // Your platform does not currently support Software Serial
-		#endif
-		void defaults();
-		void push();
-		void begin();
-		#if SW_CAPABLE_PLATFORM
-			void beginSerial(uint32_t baudrate) __attribute__((weak));
-		#else
-			void beginSerial(uint32_t) = delete; // Your platform does not currently support Software Serial
-		#endif
-		bool isEnabled();
+// 			__attribute__((deprecated("Boolean argument has been deprecated and does nothing")))
+// 			TMC2208Stepper(uint16_t SW_RX_pin, uint16_t SW_TX_pin, float RS, bool) :
+// 				TMC2208Stepper(SW_RX_pin, SW_TX_pin, RS, TMC2208_SLAVE_ADDR)
+// 				{};
+// 		#else
+// 			TMC2208Stepper(uint16_t, uint16_t, float) = delete; // Your platform does not currently support Software Serial
+// 		#endif
+// 		void defaults();
+// 		void push();
+// 		void begin();
+// 		#if SW_CAPABLE_PLATFORM
+// 			void beginSerial(uint32_t baudrate) __attribute__((weak));
+// 		#else
+// 			void beginSerial(uint32_t) = delete; // Your platform does not currently support Software Serial
+// 		#endif
+// 		bool isEnabled();
 
-		// RW: GCONF
-		void GCONF(uint32_t input);
-		void I_scale_analog(bool B);
-		void internal_Rsense(bool B);
-		void en_spreadCycle(bool B);
-		void shaft(bool B);
-		void index_otpw(bool B);
-		void index_step(bool B);
-		void pdn_disable(bool B);
-		void mstep_reg_select(bool B);
-		void multistep_filt(bool B);
-		uint32_t GCONF();
-		bool I_scale_analog();
-		bool internal_Rsense();
-		bool en_spreadCycle();
-		bool shaft();
-		bool index_otpw();
-		bool index_step();
-		bool pdn_disable();
-		bool mstep_reg_select();
-		bool multistep_filt();
+// 		// RW: GCONF
+// 		void GCONF(uint32_t input);
+// 		void I_scale_analog(bool B);
+// 		void internal_Rsense(bool B);
+// 		void en_spreadCycle(bool B);
+// 		void shaft(bool B);
+// 		void index_otpw(bool B);
+// 		void index_step(bool B);
+// 		void pdn_disable(bool B);
+// 		void mstep_reg_select(bool B);
+// 		void multistep_filt(bool B);
+// 		uint32_t GCONF();
+// 		bool I_scale_analog();
+// 		bool internal_Rsense();
+// 		bool en_spreadCycle();
+// 		bool shaft();
+// 		bool index_otpw();
+// 		bool index_step();
+// 		bool pdn_disable();
+// 		bool mstep_reg_select();
+// 		bool multistep_filt();
 
-		// R: IFCNT
-		uint8_t IFCNT();
+// 		// R: IFCNT
+// 		uint8_t IFCNT();
 
-		// W: SLAVECONF
-		void SLAVECONF(uint16_t input);
-		uint16_t SLAVECONF();
-		void senddelay(uint8_t B);
-		uint8_t senddelay();
+// 		// W: SLAVECONF
+// 		void SLAVECONF(uint16_t input);
+// 		uint16_t SLAVECONF();
+// 		void senddelay(uint8_t B);
+// 		uint8_t senddelay();
 
-		// W: OTP_PROG
-		void OTP_PROG(uint16_t input);
+// 		// W: OTP_PROG
+// 		void OTP_PROG(uint16_t input);
 
-		// R: OTP_READ
-		uint32_t OTP_READ();
+// 		// R: OTP_READ
+// 		uint32_t OTP_READ();
 
-		// R: IOIN
-		uint32_t IOIN();
-		bool enn();
-		bool ms1();
-		bool ms2();
-		bool diag();
-		bool pdn_uart();
-		bool step();
-		bool sel_a();
-		bool dir();
-		uint8_t version();
+// 		// R: IOIN
+// 		uint32_t IOIN();
+// 		bool enn();
+// 		bool ms1();
+// 		bool ms2();
+// 		bool diag();
+// 		bool pdn_uart();
+// 		bool step();
+// 		bool sel_a();
+// 		bool dir();
+// 		uint8_t version();
 
-		// RW: FACTORY_CONF
-		void FACTORY_CONF(uint16_t input);
-		uint16_t FACTORY_CONF();
-		void fclktrim(uint8_t B);
-		void ottrim(uint8_t B);
-		uint8_t fclktrim();
-		uint8_t ottrim();
+// 		// RW: FACTORY_CONF
+// 		void FACTORY_CONF(uint16_t input);
+// 		uint16_t FACTORY_CONF();
+// 		void fclktrim(uint8_t B);
+// 		void ottrim(uint8_t B);
+// 		uint8_t fclktrim();
+// 		uint8_t ottrim();
 
-		// W: VACTUAL
-		void VACTUAL(uint32_t input);
-		uint32_t VACTUAL();
+// 		// W: VACTUAL
+// 		void VACTUAL(uint32_t input);
+// 		uint32_t VACTUAL();
 
-		// RW: CHOPCONF
-		void CHOPCONF(uint32_t input);
-		void toff(uint8_t B);
-		void hstrt(uint8_t B);
-		void hend(uint8_t B);
-		void tbl(uint8_t B);
-		void vsense(bool B);
-		void mres(uint8_t B);
-		void intpol(bool B);
-		void dedge(bool B);
-		void diss2g(bool B);
-		void diss2vs(bool B);
-		uint32_t CHOPCONF();
-		uint8_t toff();
-		uint8_t hstrt();
-		uint8_t hend();
-		uint8_t tbl();
-		bool vsense();
-		uint8_t mres();
-		bool intpol();
-		bool dedge();
-		bool diss2g();
-		bool diss2vs();
+// 		// RW: CHOPCONF
+// 		void CHOPCONF(uint32_t input);
+// 		void toff(uint8_t B);
+// 		void hstrt(uint8_t B);
+// 		void hend(uint8_t B);
+// 		void tbl(uint8_t B);
+// 		void vsense(bool B);
+// 		void mres(uint8_t B);
+// 		void intpol(bool B);
+// 		void dedge(bool B);
+// 		void diss2g(bool B);
+// 		void diss2vs(bool B);
+// 		uint32_t CHOPCONF();
+// 		uint8_t toff();
+// 		uint8_t hstrt();
+// 		uint8_t hend();
+// 		uint8_t tbl();
+// 		bool vsense();
+// 		uint8_t mres();
+// 		bool intpol();
+// 		bool dedge();
+// 		bool diss2g();
+// 		bool diss2vs();
 
-		// R: DRV_STATUS
-		uint32_t DRV_STATUS();
-		bool otpw();
-		bool ot();
-		bool s2ga();
-		bool s2gb();
-		bool s2vsa();
-		bool s2vsb();
-		bool ola();
-		bool olb();
-		bool t120();
-		bool t143();
-		bool t150();
-		bool t157();
-		uint16_t cs_actual();
-		bool stealth();
-		bool stst();
+// 		// R: DRV_STATUS
+// 		uint32_t DRV_STATUS();
+// 		bool otpw();
+// 		bool ot();
+// 		bool s2ga();
+// 		bool s2gb();
+// 		bool s2vsa();
+// 		bool s2vsb();
+// 		bool ola();
+// 		bool olb();
+// 		bool t120();
+// 		bool t143();
+// 		bool t150();
+// 		bool t157();
+// 		uint16_t cs_actual();
+// 		bool stealth();
+// 		bool stst();
 
-		// RW: PWMCONF
-		void PWMCONF(uint32_t input);
-		void pwm_ofs(uint8_t B);
-		void pwm_grad(uint8_t B);
-		void pwm_freq(uint8_t B);
-		void pwm_autoscale(bool B);
-		void pwm_autograd(bool B);
-		void freewheel(uint8_t B);
-		void pwm_reg(uint8_t B);
-		void pwm_lim(uint8_t B);
-		uint32_t PWMCONF();
-		uint8_t pwm_ofs();
-		uint8_t pwm_grad();
-		uint8_t pwm_freq();
-		bool pwm_autoscale();
-		bool pwm_autograd();
-		uint8_t freewheel();
-		uint8_t pwm_reg();
-		uint8_t pwm_lim();
+// 		// RW: PWMCONF
+// 		void PWMCONF(uint32_t input);
+// 		void pwm_ofs(uint8_t B);
+// 		void pwm_grad(uint8_t B);
+// 		void pwm_freq(uint8_t B);
+// 		void pwm_autoscale(bool B);
+// 		void pwm_autograd(bool B);
+// 		void freewheel(uint8_t B);
+// 		void pwm_reg(uint8_t B);
+// 		void pwm_lim(uint8_t B);
+// 		uint32_t PWMCONF();
+// 		uint8_t pwm_ofs();
+// 		uint8_t pwm_grad();
+// 		uint8_t pwm_freq();
+// 		bool pwm_autoscale();
+// 		bool pwm_autograd();
+// 		uint8_t freewheel();
+// 		uint8_t pwm_reg();
+// 		uint8_t pwm_lim();
 
-		// R: PWM_SCALE
-		uint32_t PWM_SCALE();
-		uint8_t pwm_scale_sum();
-		int16_t pwm_scale_auto();
+// 		// R: PWM_SCALE
+// 		uint32_t PWM_SCALE();
+// 		uint8_t pwm_scale_sum();
+// 		int16_t pwm_scale_auto();
 
-		// R: PWM_AUTO (0x72)
-		uint32_t PWM_AUTO();
-		uint8_t pwm_ofs_auto();
-		uint8_t pwm_grad_auto();
+// 		// R: PWM_AUTO (0x72)
+// 		uint32_t PWM_AUTO();
+// 		uint8_t pwm_ofs_auto();
+// 		uint8_t pwm_grad_auto();
 
-		uint16_t bytesWritten = 0;
-		float Rsense = 0.11;
-		bool CRCerror = false;
-	protected:
-		INIT2208_REGISTER(GCONF)			{{.sr=0}};
-		INIT_REGISTER(SLAVECONF)			{{.sr=0}};
-		INIT_REGISTER(FACTORY_CONF)		{{.sr=0}};
-		INIT2208_REGISTER(VACTUAL)		{.sr=0};
-		INIT2208_REGISTER(CHOPCONF)		{{.sr=0}};
-		INIT2208_REGISTER(PWMCONF)		{{.sr=0}};
+// 		uint16_t bytesWritten = 0;
+// 		float Rsense = 0.11;
+// 		bool CRCerror = false;
+// 	protected:
+// 		INIT2208_REGISTER(GCONF)			{{.sr=0}};
+// 		INIT_REGISTER(SLAVECONF)			{{.sr=0}};
+// 		INIT_REGISTER(FACTORY_CONF)		{{.sr=0}};
+// 		INIT2208_REGISTER(VACTUAL)		{.sr=0};
+// 		INIT2208_REGISTER(CHOPCONF)		{{.sr=0}};
+// 		INIT2208_REGISTER(PWMCONF)		{{.sr=0}};
 
-		struct IFCNT_t 		{ constexpr static uint8_t address = 0x02; };
-		struct OTP_PROG_t 	{ constexpr static uint8_t address = 0x04; };
-		struct OTP_READ_t 	{ constexpr static uint8_t address = 0x05; };
+// 		struct IFCNT_t 		{ constexpr static uint8_t address = 0x02; };
+// 		struct OTP_PROG_t 	{ constexpr static uint8_t address = 0x04; };
+// 		struct OTP_READ_t 	{ constexpr static uint8_t address = 0x05; };
 
-		TMC2208Stepper(Stream * SerialPort, float RS, uint8_t addr);
-		#if SW_CAPABLE_PLATFORM
-			TMC2208Stepper(uint16_t SW_RX_pin, uint16_t SW_TX_pin, float RS, uint8_t addr);
-		#endif
+// 		TMC2208Stepper(Stream * SerialPort, float RS, uint8_t addr);
+// 		#if SW_CAPABLE_PLATFORM
+// 			TMC2208Stepper(uint16_t SW_RX_pin, uint16_t SW_TX_pin, float RS, uint8_t addr);
+// 		#endif
 
-		Stream * HWSerial = nullptr;
-		#if SW_CAPABLE_PLATFORM
-			SoftwareSerial * SWSerial = nullptr;
-			const uint16_t RXTX_pin = 0; // Half duplex
-		#endif
+// 		Stream * HWSerial = nullptr;
+// 		#if SW_CAPABLE_PLATFORM
+// 			SoftwareSerial * SWSerial = nullptr;
+// 			const uint16_t RXTX_pin = 0; // Half duplex
+// 		#endif
 
-		SSwitch *sswitch = nullptr;
+// 		SSwitch *sswitch = nullptr;
 
-		int available();
-		void preWriteCommunication();
-		void preReadCommunication();
-		int16_t serial_read();
-		uint8_t serial_write(const uint8_t data);
-		void postWriteCommunication();
-		void postReadCommunication();
-		void write(uint8_t, uint32_t);
-		uint32_t read(uint8_t);
-		const uint8_t slave_address;
-		uint8_t calcCRC(uint8_t datagram[], uint8_t len);
-		static constexpr uint8_t  TMC2208_SYNC = 0x05,
-															TMC2208_SLAVE_ADDR = 0x00;
-		static constexpr uint8_t replyDelay = 2;
-		static constexpr uint8_t abort_window = 5;
-		static constexpr uint8_t max_retries = 2;
+// 		int available();
+// 		void preWriteCommunication();
+// 		void preReadCommunication();
+// 		int16_t serial_read();
+// 		uint8_t serial_write(const uint8_t data);
+// 		void postWriteCommunication();
+// 		void postReadCommunication();
+// 		void write(uint8_t, uint32_t);
+// 		uint32_t read(uint8_t);
+// 		const uint8_t slave_address;
+// 		uint8_t calcCRC(uint8_t datagram[], uint8_t len);
+// 		static constexpr uint8_t  TMC2208_SYNC = 0x05,
+// 															TMC2208_SLAVE_ADDR = 0x00;
+// 		static constexpr uint8_t replyDelay = 2;
+// 		static constexpr uint8_t abort_window = 5;
+// 		static constexpr uint8_t max_retries = 2;
 
-		uint64_t _sendDatagram(uint8_t [], const uint8_t, uint16_t);
-};
+// 		uint64_t _sendDatagram(uint8_t [], const uint8_t, uint16_t);
+// };
 
-class TMC2209Stepper : public TMC2208Stepper {
-	public:
-		TMC2209Stepper(Stream * SerialPort, float RS, uint8_t addr) :
-			TMC2208Stepper(SerialPort, RS, addr) {}
+// class TMC2209Stepper : public TMC2208Stepper {
+// 	public:
+// 		TMC2209Stepper(Stream * SerialPort, float RS, uint8_t addr) :
+// 			TMC2208Stepper(SerialPort, RS, addr) {}
 
-		#if SW_CAPABLE_PLATFORM
-			TMC2209Stepper(uint16_t SW_RX_pin, uint16_t SW_TX_pin, float RS, uint8_t addr) :
-				TMC2208Stepper(SW_RX_pin, SW_TX_pin, RS, addr) {}
-		#else
-			TMC2209Stepper(uint16_t, uint16_t, float, uint8_t) = delete; // Your platform does not currently support Software Serial
-		#endif
-		void push();
+// 		#if SW_CAPABLE_PLATFORM
+// 			TMC2209Stepper(uint16_t SW_RX_pin, uint16_t SW_TX_pin, float RS, uint8_t addr) :
+// 				TMC2208Stepper(SW_RX_pin, SW_TX_pin, RS, addr) {}
+// 		#else
+// 			TMC2209Stepper(uint16_t, uint16_t, float, uint8_t) = delete; // Your platform does not currently support Software Serial
+// 		#endif
+// 		void push();
 
-		// R: IOIN
-		uint32_t IOIN();
-		bool enn();
-		bool ms1();
-		bool ms2();
-		bool diag();
-		bool pdn_uart();
-		bool step();
-		bool spread_en();
-		bool dir();
-		uint8_t version();
+// 		// R: IOIN
+// 		uint32_t IOIN();
+// 		bool enn();
+// 		bool ms1();
+// 		bool ms2();
+// 		bool diag();
+// 		bool pdn_uart();
+// 		bool step();
+// 		bool spread_en();
+// 		bool dir();
+// 		uint8_t version();
 
-		// W: TCOOLTHRS
-		uint32_t TCOOLTHRS();
-		void TCOOLTHRS(uint32_t input);
+// 		// W: TCOOLTHRS
+// 		uint32_t TCOOLTHRS();
+// 		void TCOOLTHRS(uint32_t input);
 
-		// W: SGTHRS
-		void SGTHRS(uint8_t B);
-		uint8_t SGTHRS();
+// 		// W: SGTHRS
+// 		void SGTHRS(uint8_t B);
+// 		uint8_t SGTHRS();
 
-		// R: SG_RESULT
-		uint16_t SG_RESULT();
+// 		// R: SG_RESULT
+// 		uint16_t SG_RESULT();
 
-		// W: COOLCONF
-		void COOLCONF(uint16_t B);
-		uint16_t COOLCONF();
-		void semin(uint8_t B);
-		void seup(uint8_t B);
-		void semax(uint8_t B);
-		void sedn(uint8_t B);
-		void seimin(bool B);
-		uint8_t semin();
-		uint8_t seup();
-		uint8_t semax();
-		uint8_t sedn();
-		bool seimin();
+// 		// W: COOLCONF
+// 		void COOLCONF(uint16_t B);
+// 		uint16_t COOLCONF();
+// 		void semin(uint8_t B);
+// 		void seup(uint8_t B);
+// 		void semax(uint8_t B);
+// 		void sedn(uint8_t B);
+// 		void seimin(bool B);
+// 		uint8_t semin();
+// 		uint8_t seup();
+// 		uint8_t semax();
+// 		uint8_t sedn();
+// 		bool seimin();
 
-	protected:
-		INIT_REGISTER(TCOOLTHRS){.sr=0};
-		TMC2209_n::SGTHRS_t SGTHRS_register{.sr=0};
-		TMC2209_n::COOLCONF_t COOLCONF_register{{.sr=0}};
-};
+// 	protected:
+// 		INIT_REGISTER(TCOOLTHRS){.sr=0};
+// 		TMC2209_n::SGTHRS_t SGTHRS_register{.sr=0};
+// 		TMC2209_n::COOLCONF_t COOLCONF_register{{.sr=0}};
+// };
 
-class TMC2224Stepper : public TMC2208Stepper {
-	public:
-		uint32_t IOIN();
-		bool enn();
-		bool ms1();
-		bool ms2();
-		bool pdn_uart();
-		bool spread();
-		bool step();
-		bool sel_a();
-		bool dir();
-		uint8_t version();
-};
+// class TMC2224Stepper : public TMC2208Stepper {
+// 	public:
+// 		uint32_t IOIN();
+// 		bool enn();
+// 		bool ms1();
+// 		bool ms2();
+// 		bool pdn_uart();
+// 		bool spread();
+// 		bool step();
+// 		bool sel_a();
+// 		bool dir();
+// 		uint8_t version();
+// };
 
-class TMC2660Stepper {
-	public:
-		TMC2660Stepper(uint16_t pinCS, float RS = default_RS);
-		TMC2660Stepper(uint16_t pinCS, uint16_t pinMOSI, uint16_t pinMISO, uint16_t pinSCK);
-		TMC2660Stepper(uint16_t pinCS, float RS, uint16_t pinMOSI, uint16_t pinMISO, uint16_t pinSCK);
-		void write(uint8_t addressByte, uint32_t config);
-		uint32_t read();
-		void switchCSpin(bool state);
-		void begin();
-		bool isEnabled();
-		uint8_t test_connection();
-		uint16_t cs2rms(uint8_t CS);
-		uint16_t rms_current();
-		void rms_current(uint16_t mA);
-		//uint16_t getMilliamps() {return val_mA;}
-		void push();
-		uint8_t savedToff() { return _savedToff; }
+// class TMC2660Stepper {
+// 	public:
+// 		TMC2660Stepper(uint16_t pinCS, float RS = default_RS);
+// 		TMC2660Stepper(uint16_t pinCS, uint16_t pinMOSI, uint16_t pinMISO, uint16_t pinSCK);
+// 		TMC2660Stepper(uint16_t pinCS, float RS, uint16_t pinMOSI, uint16_t pinMISO, uint16_t pinSCK);
+// 		void write(uint8_t addressByte, uint32_t config);
+// 		uint32_t read();
+// 		void switchCSpin(bool state);
+// 		void begin();
+// 		bool isEnabled();
+// 		uint8_t test_connection();
+// 		uint16_t cs2rms(uint8_t CS);
+// 		uint16_t rms_current();
+// 		void rms_current(uint16_t mA);
+// 		//uint16_t getMilliamps() {return val_mA;}
+// 		void push();
+// 		uint8_t savedToff() { return _savedToff; }
 
-		// Helper functions
-		void microsteps(uint16_t ms);
-		uint16_t microsteps();
-		void blank_time(uint8_t value);
-		uint8_t blank_time();
-		void hysteresis_end(int8_t value);
-		int8_t hysteresis_end();
-		void hysteresis_start(uint8_t value);
-		uint8_t hysteresis_start();
+// 		// Helper functions
+// 		void microsteps(uint16_t ms);
+// 		uint16_t microsteps();
+// 		void blank_time(uint8_t value);
+// 		uint8_t blank_time();
+// 		void hysteresis_end(int8_t value);
+// 		int8_t hysteresis_end();
+// 		void hysteresis_start(uint8_t value);
+// 		uint8_t hysteresis_start();
 
-		// W: DRVCONF
-		void DRVCONF(uint32_t);
-		void tst(bool);
-		void slph(uint8_t);
-		void slpl(uint8_t);
-		void diss2g(bool);
-		void ts2g(uint8_t);
-		void sdoff(bool);
-		void vsense(bool);
-		void rdsel(uint8_t);
-		uint32_t DRVCONF();
-		bool tst();
-		uint8_t slph();
-		uint8_t slpl();
-		bool diss2g();
-		uint8_t ts2g();
-		bool sdoff();
-		bool vsense();
-		uint8_t rdsel();
+// 		// W: DRVCONF
+// 		void DRVCONF(uint32_t);
+// 		void tst(bool);
+// 		void slph(uint8_t);
+// 		void slpl(uint8_t);
+// 		void diss2g(bool);
+// 		void ts2g(uint8_t);
+// 		void sdoff(bool);
+// 		void vsense(bool);
+// 		void rdsel(uint8_t);
+// 		uint32_t DRVCONF();
+// 		bool tst();
+// 		uint8_t slph();
+// 		uint8_t slpl();
+// 		bool diss2g();
+// 		uint8_t ts2g();
+// 		bool sdoff();
+// 		bool vsense();
+// 		uint8_t rdsel();
 
-		// W: DRVCTRL
-		void DRVCTRL(uint32_t);
-		void pha(bool B);
-		void ca(uint8_t B);
-		void phb(bool B);
-		void cb(uint8_t B);
-		bool pha();
-		uint8_t ca();
-		bool phb();
-		uint8_t cb();
-		void intpol(bool);
-		void dedge(bool);
-		void mres(uint8_t);
-		uint32_t DRVCTRL();
-		bool intpol();
-		bool dedge();
-		uint8_t mres();
+// 		// W: DRVCTRL
+// 		void DRVCTRL(uint32_t);
+// 		void pha(bool B);
+// 		void ca(uint8_t B);
+// 		void phb(bool B);
+// 		void cb(uint8_t B);
+// 		bool pha();
+// 		uint8_t ca();
+// 		bool phb();
+// 		uint8_t cb();
+// 		void intpol(bool);
+// 		void dedge(bool);
+// 		void mres(uint8_t);
+// 		uint32_t DRVCTRL();
+// 		bool intpol();
+// 		bool dedge();
+// 		uint8_t mres();
 
-		// W: CHOPCONF
-		void CHOPCONF(uint32_t);
-		void tbl(uint8_t);
-		void chm(bool);
-		void rndtf(bool);
-		void hdec(uint8_t);
-		void hend(uint8_t);
-		void hstrt(uint8_t);
-		void toff(uint8_t);
-		uint32_t CHOPCONF();
-		uint8_t tbl();
-		bool chm();
-		bool rndtf();
-		uint8_t hdec();
-		uint8_t hend();
-		uint8_t hstrt();
-		uint8_t toff();
+// 		// W: CHOPCONF
+// 		void CHOPCONF(uint32_t);
+// 		void tbl(uint8_t);
+// 		void chm(bool);
+// 		void rndtf(bool);
+// 		void hdec(uint8_t);
+// 		void hend(uint8_t);
+// 		void hstrt(uint8_t);
+// 		void toff(uint8_t);
+// 		uint32_t CHOPCONF();
+// 		uint8_t tbl();
+// 		bool chm();
+// 		bool rndtf();
+// 		uint8_t hdec();
+// 		uint8_t hend();
+// 		uint8_t hstrt();
+// 		uint8_t toff();
 
-		// R: DRVSTATUS
-		uint32_t DRV_STATUS() { return DRVSTATUS(); }
-		uint32_t DRVSTATUS();
-		uint16_t mstep();
-		uint8_t se();
-		bool stst();
-		bool olb();
-		bool ola();
-		bool s2gb();
-		bool s2ga();
-		bool otpw();
-		bool ot();
-		bool sg();
-		uint16_t sg_result();
+// 		// R: DRVSTATUS
+// 		uint32_t DRV_STATUS() { return DRVSTATUS(); }
+// 		uint32_t DRVSTATUS();
+// 		uint16_t mstep();
+// 		uint8_t se();
+// 		bool stst();
+// 		bool olb();
+// 		bool ola();
+// 		bool s2gb();
+// 		bool s2ga();
+// 		bool otpw();
+// 		bool ot();
+// 		bool sg();
+// 		uint16_t sg_result();
 
-		// W: SGCSCONF
-		uint32_t SGCSCONF();
-		void sfilt(bool);
-		void sgt(uint8_t);
-		void cs(uint8_t);
-		void SGCSCONF(uint32_t);
-		bool sfilt();
-		uint8_t sgt();
-		uint8_t cs();
+// 		// W: SGCSCONF
+// 		uint32_t SGCSCONF();
+// 		void sfilt(bool);
+// 		void sgt(uint8_t);
+// 		void cs(uint8_t);
+// 		void SGCSCONF(uint32_t);
+// 		bool sfilt();
+// 		uint8_t sgt();
+// 		uint8_t cs();
 
-		// W: SMARTEN
-		void SMARTEN(uint32_t);
-		void seimin(bool B);
-		void sedn(uint8_t B);
-		void semax(uint8_t B);
-		void seup(uint8_t B);
-		void semin(uint8_t B);
-		uint32_t SMARTEN();
-		bool seimin();
-		uint8_t sedn();
-		uint8_t semax();
-		uint8_t seup();
-		uint8_t semin();
-		/*
-		// Alias
-		SET_ALIAS(void, polarity_A, bool, pha);
-		SET_ALIAS(void, current_A, uint8_t, ca);
-		SET_ALIAS(void, polarity_B, bool, phb);
-		SET_ALIAS(void, current_b, uint8_t, cb);
-		SET_ALIAS(void, interpolate, bool, intpol);
-		SET_ALIAS(void, double_edge_step, bool, dedge);
-		SET_ALIAS(void, microsteps, uint8_t, mres);
-		SET_ALIAS(void, blank_time, uint8_t, tbl);
-		SET_ALIAS(void, chopper_mode, bool, chm);
-		SET_ALIAS(void, random_off_time, bool, rndtf);
-		SET_ALIAS(void, hysteresis_decrement, uint8_t, hdec);
-		SET_ALIAS(void, hysteresis_low, uint8_t, hend);
-		SET_ALIAS(void, hysteresis_start, uint8_t, hstrt);
-		SET_ALIAS(void, off_time, uint8_t, toff);
-		*/
+// 		// W: SMARTEN
+// 		void SMARTEN(uint32_t);
+// 		void seimin(bool B);
+// 		void sedn(uint8_t B);
+// 		void semax(uint8_t B);
+// 		void seup(uint8_t B);
+// 		void semin(uint8_t B);
+// 		uint32_t SMARTEN();
+// 		bool seimin();
+// 		uint8_t sedn();
+// 		uint8_t semax();
+// 		uint8_t seup();
+// 		uint8_t semin();
+// 		/*
+// 		// Alias
+// 		SET_ALIAS(void, polarity_A, bool, pha);
+// 		SET_ALIAS(void, current_A, uint8_t, ca);
+// 		SET_ALIAS(void, polarity_B, bool, phb);
+// 		SET_ALIAS(void, current_b, uint8_t, cb);
+// 		SET_ALIAS(void, interpolate, bool, intpol);
+// 		SET_ALIAS(void, double_edge_step, bool, dedge);
+// 		SET_ALIAS(void, microsteps, uint8_t, mres);
+// 		SET_ALIAS(void, blank_time, uint8_t, tbl);
+// 		SET_ALIAS(void, chopper_mode, bool, chm);
+// 		SET_ALIAS(void, random_off_time, bool, rndtf);
+// 		SET_ALIAS(void, hysteresis_decrement, uint8_t, hdec);
+// 		SET_ALIAS(void, hysteresis_low, uint8_t, hend);
+// 		SET_ALIAS(void, hysteresis_start, uint8_t, hstrt);
+// 		SET_ALIAS(void, off_time, uint8_t, toff);
+// 		*/
 
-		uint8_t status_response;
+// 		uint8_t status_response;
 
-	private:
-		INIT_REGISTER(DRVCTRL_1){{.sr=0}};
-		INIT_REGISTER(DRVCTRL_0){{.sr=0}};
-		INIT2660_REGISTER(CHOPCONF){{.sr=0}};
-		INIT_REGISTER(SMARTEN){{.sr=0}};
-		INIT_REGISTER(SGCSCONF){{.sr=0}};
-		INIT_REGISTER(DRVCONF){{.sr=0}};
-		INIT_REGISTER(READ_RDSEL00){{.sr=0}};
-		INIT_REGISTER(READ_RDSEL01){{.sr=0}};
-		INIT_REGISTER(READ_RDSEL10){{.sr=0}};
+// 	private:
+// 		INIT_REGISTER(DRVCTRL_1){{.sr=0}};
+// 		INIT_REGISTER(DRVCTRL_0){{.sr=0}};
+// 		INIT2660_REGISTER(CHOPCONF){{.sr=0}};
+// 		INIT_REGISTER(SMARTEN){{.sr=0}};
+// 		INIT_REGISTER(SGCSCONF){{.sr=0}};
+// 		INIT_REGISTER(DRVCONF){{.sr=0}};
+// 		INIT_REGISTER(READ_RDSEL00){{.sr=0}};
+// 		INIT_REGISTER(READ_RDSEL01){{.sr=0}};
+// 		INIT_REGISTER(READ_RDSEL10){{.sr=0}};
 
-		const uint16_t _pinCS;
-		const float Rsense;
-		static constexpr float default_RS = 0.1;
-		float holdMultiplier = 0.5;
-		uint32_t spi_speed = 16000000/8; // Default 2MHz
-		uint8_t _savedToff = 0;
-		SW_SPIClass * TMC_SW_SPI = nullptr;
-};
+// 		const uint16_t _pinCS;
+// 		const float Rsense;
+// 		static constexpr float default_RS = 0.1;
+// 		float holdMultiplier = 0.5;
+// 		uint32_t spi_speed = 16000000/8; // Default 2MHz
+// 		uint8_t _savedToff = 0;
+// 		SW_SPIClass * TMC_SW_SPI = nullptr;
+// };

@@ -1,43 +1,16 @@
-# Python wrapper for the Arduino library
-The following library is needed for Raspberry. [Airspayce](https://www.airspayce.com/mikem/bcm2835/) is the official site
-and can be used to retrieve the latest version.
-```
-wget http://www.airspayce.com/mikem/bcm2835/bcm2835-1.68.tar.gz 
-tar zxvf bcm2835-1.xx.tar.gz
-cd bcm2835-1.xx
-./configure
-make
-sudo make check
-sudo make install
-```
-Recursive clone, cleaner would be to use python module for pybind
-```
-git clone --recurse-submodules https://github.com/hstarmans/TMCStepper.git
-```
-Install cmake
-```
-sudo apt -y install cmake
-```
-Library can be compiled or installed using python.
-```
-python3 setup.py develop --user
-```
-More direct way of compling is
-```
-cmake -H. -Bbuild & make -C ./build
-```
-# Testing
-The test pure.py in the folder test/pure.py should pass.
-On ubuntu you might not have access to pins
-A very quick fix is. Newer versions of ubuntu should not have this issue, see [link](https://github.com/gpiozero/gpiozero/issues/837).
-```
-chmod og+rwx /dev/gpio*
-```
-By changing the cmakelist file, C++ examples can be compiled. In specific, examples/Simple is modified for Firestarter board.
-Test_connection complains about no power applied to board but it should result in power on to the motors.
-This error seems to be a problem with the library.  
-The library can be tested with libtest.py which is available in the test folder.
+# Micropython wrapper for the TMStepper library
 
+TMCStepper library for ESP32 and micropython.
+Compiled using the instructions on [Micropython](https://docs.micropython.org/en/latest/develop/extendingmicropython.html).
+```
+make USER_C_MODULES=enter_correct_path_here/TMCStepper/micropython.cmake
+```
+Library is not tested but does compile. Only a single function can be called which configures the motors.
+This is done using the following commands.  
+```python
+import steppers
+steppers.init()
+```
 
 # Documentation Original
 
@@ -76,3 +49,4 @@ This donation option will allow me to purchase the hardware that I can use for t
 
 - [x] ESP-PROG for debugging ESP32 support
 - [ ] SKR Pro V1.2 for testing STM32 based boards
+
