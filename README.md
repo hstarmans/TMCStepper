@@ -1,6 +1,10 @@
 # Python wrapper for the Arduino library
 The following library is needed for Raspberry. [Airspayce](https://www.airspayce.com/mikem/bcm2835/) is the official site
 and can be used to retrieve the latest version.
+
+A port for ESP32 is available in the ESP32 branch.
+
+
 ```
 wget http://www.airspayce.com/mikem/bcm2835/bcm2835-1.68.tar.gz 
 tar zxvf bcm2835-1.xx.tar.gz
