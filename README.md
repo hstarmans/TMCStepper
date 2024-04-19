@@ -5,7 +5,8 @@ Compiled using the instructions on [Micropython](https://docs.micropython.org/en
 ```
 make USER_C_MODULES=enter_correct_path_here/TMCStepper/micropython.cmake
 ```
-Library is not tested but does compile. Only a single function can be called which configures the motors.
+Library compiles and is tested. Please note that the drives can enter a failure mode, in which they no longer work.
+Only a single function can be called which configures the motors.
 This is done using the following commands.  
 ```python
 import steppers
